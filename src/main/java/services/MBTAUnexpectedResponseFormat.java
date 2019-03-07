@@ -1,6 +1,6 @@
-package mbta;
+package services;
 
-public class MBTAUnexpectedResponseFormat extends Exception {
+public class MBTAUnexpectedResponseFormat extends MBTAAPIException {
 
 	private static final long serialVersionUID = -632334111195038660L;
 

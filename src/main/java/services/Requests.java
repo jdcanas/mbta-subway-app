@@ -1,4 +1,4 @@
-package mbta;
+package services;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -7,27 +7,36 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class Services {
+import mbta.Constants;
+import mbta.Route;
+import mbta.Stop;
+
+public class Requests {
 	
-	private static Services services = null;
-	private Services() {}
+	private static Requests services = null;
+	private Requests() {}
 	
-	public static Services getInstance() {
+	public static Requests getInstance() {
 		if (services == null) {
-			services = new Services();
+			services = new Requests();
 		}
 		return services;
 	}
 	
-	public ArrayList<Route> getRoutes() throws MBTAResourceRequestIncompleteException {
+	public ArrayList<Route> getRoutes() throws MBTAAPIException {
 		String routesResponse = performGetRequest(Constants.GET_ROUTES_URL);
-		ArrayList<Route> routes = ResponseHandler.processRouteAPIResponse(routesResponse);
+		ArrayList<Route> routes = RouteResponseHandler.processRouteAPIResponse(routesResponse);
 		
 		return routes;
 	}
 	
-	public ArrayList<Stop> getStops(String routeID) {
-		return null;
+	public ArrayList<Stop> getStops(String routeID) throws MBTAAPIException {
+		String stopsUrl = Constants.GET_STOPS_URL + routeID;
+		String stopsResponse = performGetRequest(stopsUrl);
+		
+		ArrayList<Stop> stops = StopResponseHandler.processStopAPIResponse(stopsResponse);
+		
+		return stops;
 	}
 	
 	private String performGetRequest(String requestUrl) throws MBTAResourceRequestIncompleteException {
