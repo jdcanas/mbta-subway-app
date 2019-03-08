@@ -9,7 +9,7 @@ import org.json.simple.JSONObject;
 import org.junit.jupiter.api.Test;
 
 import services.JSONResponseHandler;
-import services.MBTAUnexpectedResponseFormat;
+import services.MBTAUnexpectedResponseFormatException;
 
 class TestJSONResponseHandler {
 	
@@ -18,7 +18,7 @@ class TestJSONResponseHandler {
 
 	//these tests ensure array parsing properly returns MBTA-specific error messages if an error is encountered in JSON
 	@Test
-	public void testValidArrayExtract() throws MBTAUnexpectedResponseFormat {
+	public void testValidArrayExtract() throws MBTAUnexpectedResponseFormatException {
 		JSONObject goodObj = new JSONObject();
 		JSONArray goodArr = new JSONArray();
 		
@@ -33,7 +33,7 @@ class TestJSONResponseHandler {
 	public void testArrayWithKeyNotPresentException() {
 		JSONObject badObj = new JSONObject();
 		
-		MBTAUnexpectedResponseFormat error = assertThrows(MBTAUnexpectedResponseFormat.class,
+		MBTAUnexpectedResponseFormatException error = assertThrows(MBTAUnexpectedResponseFormatException.class,
 				() -> JSONResponseHandler.extractArrayFromJSON(badObj, invalidKey));
 		
 		assertTrue(error.getMessage().contains(Constants.EXCEPTIONS_INVALID_ARRAY));
@@ -44,7 +44,7 @@ class TestJSONResponseHandler {
 		JSONObject badObj = new JSONObject();
 		badObj.put(validKey, "");
 		
-		MBTAUnexpectedResponseFormat error = assertThrows(MBTAUnexpectedResponseFormat.class,
+		MBTAUnexpectedResponseFormatException error = assertThrows(MBTAUnexpectedResponseFormatException.class,
 				() -> JSONResponseHandler.extractArrayFromJSON(badObj, validKey));
 		
 		assertTrue(error.getMessage().contains(Constants.EXCEPTIONS_INVALID_ARRAY));
@@ -52,7 +52,7 @@ class TestJSONResponseHandler {
 	
 	//these tests ensure object parsing properly returns MBTA-specific error messages if an error is encountered in JSON
 	@Test
-	public void testValidJSONObjectExtract() throws MBTAUnexpectedResponseFormat {
+	public void testValidJSONObjectExtract() throws MBTAUnexpectedResponseFormatException {
 		JSONObject goodObj = new JSONObject();
 		
 		JSONObject nestedObj = new JSONObject();
@@ -69,7 +69,7 @@ class TestJSONResponseHandler {
 	public void testObjectWithKeyNotPresentException() {
 		JSONObject badObj = new JSONObject();
 		
-		MBTAUnexpectedResponseFormat error = assertThrows(MBTAUnexpectedResponseFormat.class,
+		MBTAUnexpectedResponseFormatException error = assertThrows(MBTAUnexpectedResponseFormatException.class,
 				() -> JSONResponseHandler.extractJSONFromJSON(badObj, invalidKey));
 		
 		assertTrue(error.getMessage().contains(Constants.EXCEPTIONS_INVALID_OBJECT));
@@ -80,14 +80,14 @@ class TestJSONResponseHandler {
 		JSONObject badObj = new JSONObject();
 		badObj.put(validKey, "");
 		
-		MBTAUnexpectedResponseFormat error = assertThrows(MBTAUnexpectedResponseFormat.class,
+		MBTAUnexpectedResponseFormatException error = assertThrows(MBTAUnexpectedResponseFormatException.class,
 				() -> JSONResponseHandler.extractJSONFromJSON(badObj, validKey));
 		
 		assertTrue(error.getMessage().contains(Constants.EXCEPTIONS_INVALID_OBJECT));
 	}
 	
 	@Test
-	public void testValidStringExtract() throws MBTAUnexpectedResponseFormat {
+	public void testValidStringExtract() throws MBTAUnexpectedResponseFormatException {
 		JSONObject goodObj = new JSONObject();
 		String extractedString = "dataPayload";
 				
@@ -101,7 +101,7 @@ class TestJSONResponseHandler {
 	public void testObjectWithStringNotPresentException() {
 		JSONObject badObj = new JSONObject();
 		
-		MBTAUnexpectedResponseFormat error = assertThrows(MBTAUnexpectedResponseFormat.class,
+		MBTAUnexpectedResponseFormatException error = assertThrows(MBTAUnexpectedResponseFormatException.class,
 				() -> JSONResponseHandler.extractStringFromJSON(badObj, invalidKey));
 		
 		assertTrue(error.getMessage().contains(Constants.EXCEPTIONS_INVALID_STRING));
@@ -112,7 +112,7 @@ class TestJSONResponseHandler {
 		JSONObject badObj = new JSONObject();
 		badObj.put(validKey, new JSONArray());
 		
-		MBTAUnexpectedResponseFormat error = assertThrows(MBTAUnexpectedResponseFormat.class,
+		MBTAUnexpectedResponseFormatException error = assertThrows(MBTAUnexpectedResponseFormatException.class,
 				() -> JSONResponseHandler.extractStringFromJSON(badObj, validKey));
 		
 		assertTrue(error.getMessage().contains(Constants.EXCEPTIONS_INVALID_STRING));
@@ -122,7 +122,7 @@ class TestJSONResponseHandler {
 	public void testParseFailWithValidJSONButNotAnObject() {
 		String nonJSONObject = "[]";
 		
-		MBTAUnexpectedResponseFormat error = assertThrows(MBTAUnexpectedResponseFormat.class,
+		MBTAUnexpectedResponseFormatException error = assertThrows(MBTAUnexpectedResponseFormatException.class,
 				() -> JSONResponseHandler.extractJSONFromString(nonJSONObject));
 		
 		assertTrue(error.getMessage().contains(Constants.EXCEPTIONS_INVALID_JSON));
@@ -132,14 +132,14 @@ class TestJSONResponseHandler {
 	public void testParseFailWithInvalidJSON() {
 		String invalidJSON = "";
 		
-		MBTAUnexpectedResponseFormat error = assertThrows(MBTAUnexpectedResponseFormat.class,
+		MBTAUnexpectedResponseFormatException error = assertThrows(MBTAUnexpectedResponseFormatException.class,
 				() -> JSONResponseHandler.extractJSONFromString(invalidJSON));
 		
 		assertTrue(error.getMessage().contains(Constants.EXCEPTIONS_INVALID_JSON));
 	}
 	
 	@Test
-	public void testParseWithValidJSON() throws MBTAUnexpectedResponseFormat {
+	public void testParseWithValidJSON() throws MBTAUnexpectedResponseFormatException {
 		String validJSON = "{\"key\": \"data\"}";
 		
 		JSONObject parsedObj = JSONResponseHandler.extractJSONFromString(validJSON);

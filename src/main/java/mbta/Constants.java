@@ -18,8 +18,11 @@ public class Constants {
 	//JSON field constants
 	public static final String JSON_DATA_KEY = "data";
 	public static final String JSON_ID_KEY = "id";
-	public static final String JSON_ROUTE_WRAPPER_KEY = "attributes";
-	public static final String JSON_LONG_NAME_KEY = "long_name";
+	public static final String JSON_ITEMS_WRAPPER_KEY = "attributes";
+	public static final String JSON_ROUTE_NAME_KEY = "long_name";
+	public static final String JSON_STOP_NAME_KEY = "name";
+	
+	
 	
 	//JSON parsing exception messages
 	public static final String EXCEPTIONS_UNEXPECTED_TYPE = "Encountered an unexpected type when parsing the route response. ";

@@ -10,7 +10,7 @@ import mbta.Route;
 
 public class RouteResponseHandler {
 	
-	public static ArrayList<Route> processRouteAPIResponse(String response) throws MBTAUnexpectedResponseFormat {
+	public static ArrayList<Route> processRouteAPIResponse(String response) throws MBTAUnexpectedResponseFormatException {
 		ArrayList<Route> routes = new ArrayList<Route>();
 		
 		JSONObject responseJSON = JSONResponseHandler.extractJSONFromString(response);
@@ -27,13 +27,13 @@ public class RouteResponseHandler {
 		return routes;
 	}
 	
-	private static Route extractRouteFromJSON(JSONObject routeJSON) throws MBTAUnexpectedResponseFormat {
+	private static Route extractRouteFromJSON(JSONObject routeJSON) throws MBTAUnexpectedResponseFormatException {
 		Route extractedRoute;
 		
 		String id = JSONResponseHandler.extractStringFromJSON(routeJSON, Constants.JSON_ID_KEY);
 		
-		JSONObject routeWrapper = JSONResponseHandler.extractJSONFromJSON(routeJSON, Constants.JSON_ROUTE_WRAPPER_KEY);
-		String longName = JSONResponseHandler.extractStringFromJSON(routeWrapper, Constants.JSON_LONG_NAME_KEY);
+		JSONObject routeWrapper = JSONResponseHandler.extractJSONFromJSON(routeJSON, Constants.JSON_ITEMS_WRAPPER_KEY);
+		String longName = JSONResponseHandler.extractStringFromJSON(routeWrapper, Constants.JSON_ROUTE_NAME_KEY);
 		
 		extractedRoute = new Route(longName, id);
 		return extractedRoute;

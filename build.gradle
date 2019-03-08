@@ -26,16 +26,12 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.1'
 
+	//Mocking library used for testing
+    compile 'org.mockito:mockito-core:2.24.0'
+
 	// https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple
 	//library for JSON support
 	compile group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
-	
-	//libraries for the Http Client
-	//https://mvnrepository.com/artifact/commons-io/commons-io -- needed in services for IOutils
-    compile group: 'commons-io', name: 'commons-io', version: '2.6'
-    compile 'org.apache.httpcomponents:httpclient:4.5.7'
-    // https://mvnrepository.com/artifact/org.apache.httpcomponents/httpmime
-	compile group: 'org.apache.httpcomponents', name: 'httpmime', version: '4.3.3'
 }
 
 test {
