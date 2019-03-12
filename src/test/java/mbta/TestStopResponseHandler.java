@@ -8,8 +8,8 @@ import java.util.ArrayList;
 
 import org.junit.jupiter.api.Test;
 
-import services.MBTAUnexpectedResponseFormatException;
-import services.StopResponseHandler;
+import services.MBTADataMappingException;
+import services.StopResponseMapper;
 
 class TestStopResponseHandler {
 
@@ -17,8 +17,8 @@ class TestStopResponseHandler {
 	ArrayList<Stop> parsedStops;
 	
 	@Test
-	public void testValidStopParse() throws MBTAUnexpectedResponseFormatException {
-		parsedStops = StopResponseHandler.processStopAPIResponse(validStopsResponse);
+	public void testValidStopParse() throws MBTADataMappingException {
+		parsedStops = StopResponseMapper.processStopAPIResponse(validStopsResponse);
 		assertEquals(3, parsedStops.size());
 		
 		assertEquals("place-asmnl", parsedStops.get(0).getID());
@@ -26,9 +26,9 @@ class TestStopResponseHandler {
 	}
 	
 	@Test
-	public void testInvalidRouteParse() throws MBTAUnexpectedResponseFormatException {
-		MBTAUnexpectedResponseFormatException error = assertThrows(MBTAUnexpectedResponseFormatException.class, 
-				() -> StopResponseHandler.processStopAPIResponse(""));
+	public void testInvalidRouteParse() throws MBTADataMappingException {
+		MBTADataMappingException error = assertThrows(MBTADataMappingException.class, 
+				() -> StopResponseMapper.processStopAPIResponse(""));
 		
 		assertTrue(error.getMessage().contains(Constants.EXCEPTIONS_INVALID_JSON));
 	}

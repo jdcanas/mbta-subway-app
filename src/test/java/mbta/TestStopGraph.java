@@ -1,7 +1,6 @@
 package mbta;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -139,7 +138,7 @@ class TestStopGraph {
 	}
 	
 	@Test
-	//this test the graph with 4 routes and 5 stops, 
+	//this tests a graph with 4 routes and 5 stops, 
 	// ____
 	// |   |
 	// A-B-C-E

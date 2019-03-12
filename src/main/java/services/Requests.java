@@ -25,7 +25,7 @@ public class Requests {
 	
 	public ArrayList<Route> getRoutes() throws MBTAAPIException {
 		String routesResponse = performGetRequest(Constants.GET_ROUTES_URL);
-		ArrayList<Route> routes = RouteResponseHandler.processRouteAPIResponse(routesResponse);
+		ArrayList<Route> routes = RouteResponseMapper.processRouteAPIResponse(routesResponse);
 		
 		return routes;
 	}
@@ -34,7 +34,7 @@ public class Requests {
 		String stopsUrl = Constants.GET_STOPS_URL + routeID;
 		String stopsResponse = performGetRequest(stopsUrl);
 		
-		ArrayList<Stop> stops = StopResponseHandler.processStopAPIResponse(stopsResponse);
+		ArrayList<Stop> stops = StopResponseMapper.processStopAPIResponse(stopsResponse);
 		
 		return stops;
 	}

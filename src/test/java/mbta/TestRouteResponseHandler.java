@@ -7,8 +7,8 @@ import java.util.ArrayList;
 
 import org.junit.jupiter.api.Test;
 
-import services.MBTAUnexpectedResponseFormatException;
-import services.RouteResponseHandler;
+import services.MBTADataMappingException;
+import services.RouteResponseMapper;
 
 class TestRouteResponseHandler {
 
@@ -16,15 +16,15 @@ class TestRouteResponseHandler {
 	ArrayList<Route> parsedRoutes;
 	
 	@Test
-	public void testValidRouteParse() throws MBTAUnexpectedResponseFormatException {
-		parsedRoutes = RouteResponseHandler.processRouteAPIResponse(validRoutesResponse);
+	public void testValidRouteParse() throws MBTADataMappingException {
+		parsedRoutes = RouteResponseMapper.processRouteAPIResponse(validRoutesResponse);
 		assertEquals(3, parsedRoutes.size());
 	}
 	
 	@Test
-	public void testInvalidRouteParse() throws MBTAUnexpectedResponseFormatException {
-		MBTAUnexpectedResponseFormatException error = assertThrows(MBTAUnexpectedResponseFormatException.class, 
-				() -> RouteResponseHandler.processRouteAPIResponse(""));
+	public void testInvalidRouteParse() throws MBTADataMappingException {
+		MBTADataMappingException error = assertThrows(MBTADataMappingException.class, 
+				() -> RouteResponseMapper.processRouteAPIResponse(""));
 		
 		assertTrue(error.getMessage().contains(Constants.EXCEPTIONS_INVALID_JSON));
 	}

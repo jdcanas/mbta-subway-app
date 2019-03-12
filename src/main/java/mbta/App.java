@@ -6,6 +6,7 @@ public class App {
 
     public static void main(String[] args) {
     	RouteManager routeManager = new RouteManager();
+    	
 		try {
 			routeManager.performMBTARequests();
 		} catch (MBTAAPIException e) {

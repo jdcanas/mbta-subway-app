@@ -41,5 +41,9 @@ public class StopGraph {
 		return stopSet.get(stopID);
 	}
 	
+	public boolean hasStop(String stopID) {
+		return stopSet.containsKey(stopID);
+	}
+	
 
 }
