@@ -49,16 +49,16 @@ class TestStopGraph {
 		
 		HashSet<StopConnection> stop1Connections = new HashSet<StopConnection>();
 		stop1Connections.add(new StopConnection(stop1ID, stop2ID, route1ID));
-		stop1Mock.initializeConnections(stop1Connections, route1ID);
+		stop1Mock.initializeConnections(stop1Connections);
 		
 		HashSet<StopConnection> stop2Connections = new HashSet<StopConnection>();
 		stop2Connections.add(new StopConnection(stop2ID, stop1ID, route1ID));
 		stop2Connections.add(new StopConnection(stop2ID, stop3ID, route1ID));
-		stop2Mock.initializeConnections(stop2Connections, route1ID);
+		stop2Mock.initializeConnections(stop2Connections);
 		
 		HashSet<StopConnection> stop3Connections = new HashSet<StopConnection>();
 		stop3Connections.add(new StopConnection(stop3ID, stop2ID, route1ID));
-		stop3Mock.initializeConnections(stop3Connections, route1ID);
+		stop3Mock.initializeConnections(stop3Connections);
 		
 		ArrayList<Stop> mockedStops = new ArrayList<Stop>();
 		mockedStops.add(stop1Mock);
@@ -82,20 +82,20 @@ class TestStopGraph {
 		//route 1 setup
 		HashSet<StopConnection> stop1Connections = new HashSet<StopConnection>();
 		stop1Connections.add(new StopConnection(stop1ID, stop2ID, route1ID));
-		stop1Mock.initializeConnections(stop1Connections, route1ID);
+		stop1Mock.initializeConnections(stop1Connections);
 		
 		HashSet<StopConnection> stop2Connections = new HashSet<StopConnection>();
 		stop2Connections.add(new StopConnection(stop2ID, stop1ID, route1ID));
-		stop2Mock.initializeConnections(stop2Connections, route1ID);
+		stop2Mock.initializeConnections(stop2Connections);
 		
 		//route 2 setup
 		HashSet<StopConnection> stop2DifferentRouteConnections = new HashSet<StopConnection>();
 		stop2DifferentRouteConnections.add(new StopConnection(stop2ID, stop3ID, route2ID));
-		stop2DifferentRouteMock.initializeConnections(stop2DifferentRouteConnections, route2ID);
+		stop2DifferentRouteMock.initializeConnections(stop2DifferentRouteConnections);
 		
 		HashSet<StopConnection> stop3Connections = new HashSet<StopConnection>();
 		stop3Connections.add(new StopConnection(stop3ID, stop2ID, route2ID));
-		stop3Mock.initializeConnections(stop3Connections, route2ID);
+		stop3Mock.initializeConnections(stop3Connections);
 		
 		ArrayList<Stop> mockedRoute1 = new ArrayList<Stop>();
 		mockedRoute1.add(stop1Mock);
@@ -145,21 +145,21 @@ class TestStopGraph {
 		
 		HashSet<StopConnection> stopARoute1Connections = new HashSet<StopConnection>();
 		stopARoute1Connections.add(new StopConnection(stop1ID, stop2ID, route1ID));
-		route1A.initializeConnections(stopARoute1Connections, route1ID);
+		route1A.initializeConnections(stopARoute1Connections);
 		
 		HashSet<StopConnection> stopBRoute1Connections = new HashSet<StopConnection>();
 		stopBRoute1Connections.add(new StopConnection(stop2ID, stop1ID, route1ID));
 		stopBRoute1Connections.add(new StopConnection(stop2ID, stop3ID, route1ID));
-		route1B.initializeConnections(stopBRoute1Connections, route1ID);
+		route1B.initializeConnections(stopBRoute1Connections);
 		
 		HashSet<StopConnection> stopCRoute1Connections = new HashSet<StopConnection>();
 		stopCRoute1Connections.add(new StopConnection(stop3ID, stop2ID, route1ID));
 		stopCRoute1Connections.add(new StopConnection(stop3ID, stop5ID, route1ID));
-		route1C.initializeConnections(stopCRoute1Connections, route1ID);
+		route1C.initializeConnections(stopCRoute1Connections);
 		
 		HashSet<StopConnection> stopERoute1Connections = new HashSet<StopConnection>();
 		stopERoute1Connections.add(new StopConnection(stop5ID, stop3ID, route1ID));
-		route1E.initializeConnections(stopERoute1Connections, route1ID);
+		route1E.initializeConnections(stopERoute1Connections);
 		
 		mockedRoute1.add(route1A);
 		mockedRoute1.add(route1B);
@@ -174,11 +174,11 @@ class TestStopGraph {
 		
 		HashSet<StopConnection> stopARoute2Connections = new HashSet<StopConnection>();
 		stopARoute2Connections.add(new StopConnection(stop1ID, stop4ID, route2ID));
-		route2A.initializeConnections(stopARoute2Connections, route2ID);
+		route2A.initializeConnections(stopARoute2Connections);
 		
 		HashSet<StopConnection> stopDRoute2Connections = new HashSet<StopConnection>();
 		stopDRoute2Connections.add(new StopConnection(stop4ID, stop1ID, route2ID));
-		route2D.initializeConnections(stopDRoute2Connections, route2ID);
+		route2D.initializeConnections(stopDRoute2Connections);
 		
 		mockedRoute2.add(route2A);
 		mockedRoute2.add(route2D);
@@ -191,11 +191,11 @@ class TestStopGraph {
 		
 		HashSet<StopConnection> stopBRoute3Connections = new HashSet<StopConnection>();
 		stopBRoute3Connections.add(new StopConnection(stop2ID, stop4ID, route3ID));
-		route3B.initializeConnections(stopBRoute3Connections, route3ID);
+		route3B.initializeConnections(stopBRoute3Connections);
 		
 		HashSet<StopConnection> stopDRoute3Connections = new HashSet<StopConnection>();
 		stopDRoute3Connections.add(new StopConnection(stop4ID, stop2ID, route3ID));
-		route3D.initializeConnections(stopDRoute3Connections, route3ID);
+		route3D.initializeConnections(stopDRoute3Connections);
 		
 		mockedRoute3.add(route3D);
 		mockedRoute3.add(route3B);
@@ -208,11 +208,11 @@ class TestStopGraph {
 		
 		HashSet<StopConnection> stopARoute4Connections = new HashSet<StopConnection>();
 		stopARoute4Connections.add(new StopConnection(stop1ID, stop3ID, route4ID));
-		route4A.initializeConnections(stopARoute4Connections, route4ID);
+		route4A.initializeConnections(stopARoute4Connections);
 		
 		HashSet<StopConnection> stopCRoute4Connections = new HashSet<StopConnection>();
 		stopCRoute4Connections.add(new StopConnection(stop3ID, stop1ID, route4ID));
-		route4C.initializeConnections(stopCRoute4Connections, route4ID);
+		route4C.initializeConnections(stopCRoute4Connections);
 		
 		mockedRoute4.add(route4A);
 		mockedRoute4.add(route4C);

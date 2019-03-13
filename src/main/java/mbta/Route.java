@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import services.MBTAAPIException;
 import services.Requests;
 
+//An internal representation of the response from the MBTA /route API
 public class Route {
 	
 	private String longName;
@@ -43,7 +44,7 @@ public class Route {
 			currStop = stops.get(i);
 			currConnections = getConnectionIDs(i, stops);
 			
-			currStop.initializeConnections(currConnections, routeID);
+			currStop.initializeConnections(currConnections);
 			
 			stopsWithConnections.add(currStop);
 		}

@@ -79,6 +79,7 @@ class TestRoute {
 	    assertTrue(enrichedStops.get(2).getConnections().contains(new StopConnection(stopID3,stopID2,testRouteID)));
 	}
 	
+	//the two methods below are necessary for mocking the requests. Reflection is used as the mockito framework has issues mocking static methods
     private void setMock(Requests mock){
 		try{
 			Field instance = Requests.class.getDeclaredField("services");

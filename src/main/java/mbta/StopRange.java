@@ -2,6 +2,7 @@ package mbta;
 
 import java.util.ArrayList;
 
+//this class is used to simplify the finding/printing of the routes with min/max number of stops
 public class StopRange {
 	
 	private Route minRoute;

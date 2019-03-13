@@ -8,8 +8,8 @@ import services.Requests;
 
 public class RouteManager {
 	
-	ArrayList<Route> routes;
-	StopGraph stopGraph;
+	private ArrayList<Route> routes;
+	private StopGraph stopGraph;
 	
 	public RouteManager() {
 		this.stopGraph = new StopGraph();

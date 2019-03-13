@@ -8,6 +8,7 @@ import org.json.simple.JSONObject;
 import mbta.Constants;
 import mbta.Stop;
 
+//The adaptor to produce the internal stop representation from the MBTA API response
 public class StopResponseMapper {
 	
 	public static ArrayList<Stop> processStopAPIResponse(String response) throws MBTADataMappingException {

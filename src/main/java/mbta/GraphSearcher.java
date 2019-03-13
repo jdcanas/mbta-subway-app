@@ -5,16 +5,17 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 
+//takes a graph and finds a path using Breadth first search
 public class GraphSearcher {
-	StopGraph graph;
-	
-	HashMap<String,StopConnection> predecessorMap;
+	private StopGraph graph;
+	private HashMap<String,StopConnection> predecessorMap;
 	
 	public GraphSearcher(StopGraph graph) {
 		this.graph = graph;
 	}
 	
-	//a breadth first search
+	//a breadth first search on the StopGraph
+	//this will return an empty path if the start and end stops are the same, and an exception if there is no path between the start and end
 	public ArrayList<StopConnection> findPath(String startStopID, String endStopID) throws NoPathFoundException {		
 		predecessorMap = new HashMap<String,StopConnection>();
 		
@@ -50,9 +51,11 @@ public class GraphSearcher {
 			visited.add(currStopID);
 		}
 		
+		//if we reach here, we have explored all possible connections and not found our destination
 		throw new NoPathFoundException(Constants.EXCEPTION_NO_ROUTE_TO_DEST + startStopID + " to " + endStopID);
 	}
 	
+	//traverses the preDecessor map to determine the path through the graph taken.
 	private ArrayList<StopConnection> traverseToStart(String startStop, String endStop) {
 		ArrayList<StopConnection> path = new ArrayList<StopConnection>();
 		

@@ -3,7 +3,6 @@ package mbta;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-
 //A custom graph implementation is used here for better understanding of the underlying implementation
 //The 'Stop' class is a node, and the 'StopConnection' is an edge 
 public class StopGraph {

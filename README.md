@@ -9,6 +9,8 @@ This application prints the following pieces of information to the console:
 5. All stops that connect one route to another (defined as a stop that is on more than one route) 
 6. The stops between stop specific stops. Note that the stop must be specified via ID as returned by the api mentioned in 2)
 
+This app contains an extensive test suite, powered by JUnit 5. Mockito is used in some tests for easy mocking.
+
 ##Running the App
 To run the app, follow these steps:
 1. Clone the app via `git clone https://github.com/jdcanas/mbta-subway-app.git`

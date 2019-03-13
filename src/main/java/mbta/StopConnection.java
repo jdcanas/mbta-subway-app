@@ -3,8 +3,9 @@ package mbta;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 
+//Represents an edge in the stop graph
 public class StopConnection {
-	
+
 	public String start;
 	public String end;
 	public String routeID;

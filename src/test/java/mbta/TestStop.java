@@ -38,7 +38,7 @@ class TestStop {
 		testConnectionIDs1.add(connection1);
 		testConnectionIDs1.add(connection2);
 		
-		testStop.initializeConnections(testConnectionIDs1, routeID1);
+		testStop.initializeConnections(testConnectionIDs1);
 		
 		assertEquals(1, StopConnection.getRoutesFromConnections(testStop.getConnections()).size());
 		assertEquals(2, testStop.getConnections().size());
@@ -55,7 +55,7 @@ class TestStop {
 	
 	@Test
 	void testInitialIsConnectorState() {
-		testStop.initializeConnections(new HashSet<StopConnection>(), routeID1);
+		testStop.initializeConnections(new HashSet<StopConnection>());
 		
 		assertFalse(testStop.isConnector());
 	}
@@ -66,10 +66,10 @@ class TestStop {
 		
 		testConnectionIDs1.add(connection1);
 		testConnectionIDs1.add(connection2);
-		testStop.initializeConnections(testConnectionIDs1, routeID1);
+		testStop.initializeConnections(testConnectionIDs1);
 	
 		testConnectionIDs2.add(connection3);
-		sameStopDifferentRoute.initializeConnections(testConnectionIDs2, routeID2);
+		sameStopDifferentRoute.initializeConnections(testConnectionIDs2);
 		
 		testStop.updateConnections(sameStopDifferentRoute);
 		

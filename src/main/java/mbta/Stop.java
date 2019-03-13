@@ -2,12 +2,13 @@ package mbta;
 
 import java.util.HashSet;
 
+//Represents a node in the stop graph
+//This is an internal representation of the stop object from the MBTA /stops API
 public class Stop {
 	//the MBTA id for this stop
 	private String stopID;
 	//the IDs of stops that you can get to from this stop
 	private HashSet<StopConnection> connections;
-	//whether the stop connects to other routes
 	
 	private String name;
 	
@@ -17,10 +18,7 @@ public class Stop {
 		this.connections = new HashSet<StopConnection>();
 	}
 	
-	public void initializeConnections(HashSet<StopConnection> connections, String routeID) {
-		HashSet<String> routeSet = new HashSet<String>();
-		routeSet.add(routeID);
-		
+	public void initializeConnections(HashSet<StopConnection> connections) {
 		addConnections(connections);
 	}
 	

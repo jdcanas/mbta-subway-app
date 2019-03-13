@@ -8,6 +8,7 @@ import org.json.simple.JSONObject;
 import mbta.Constants;
 import mbta.Route;
 
+//The adaptor to produce the internal route representation from the MBTA API response
 public class RouteResponseMapper {
 	
 	public static ArrayList<Route> processRouteAPIResponse(String response) throws MBTADataMappingException {

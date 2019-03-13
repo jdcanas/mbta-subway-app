@@ -11,6 +11,7 @@ import mbta.Constants;
 import mbta.Route;
 import mbta.Stop;
 
+//Controller responsible for interacting with the MBTA API. The requests are a singleton.
 public class Requests {
 	
 	private static Requests services = null;
