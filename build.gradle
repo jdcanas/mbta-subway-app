@@ -15,6 +15,9 @@ plugins {
     
     //plugin for eclipse IDE support
      id 'eclipse'
+     
+    //used to package jar
+    id 'com.github.johnrengelman.shadow' version '4.0.3'
 }
 
 repositories {
@@ -32,6 +35,13 @@ dependencies {
 	// https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple
 	//library for JSON support
 	compile group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
+}
+
+// using shadow plugin to make a jar, docs here https://imperceptiblethoughts.com/shadow/
+shadowJar {
+   baseName = 'mbta'
+   classifier = null
+   version = null
 }
 
 test {

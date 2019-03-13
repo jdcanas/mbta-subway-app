@@ -1,6 +1,7 @@
 package mbta;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 
 import services.MBTAAPIException;
 import services.Requests;
@@ -24,9 +25,12 @@ public class RouteManager {
 		}
 	}
 	
-	public void printRouteNames() {
+	public void printRoutes() {
 		for (Route route: routes) {
 			System.out.println(route.getLongName());
+			System.out.println("    Stops on this route:");
+			System.out.println("    " + route.getStopIDs().toString());
+			System.out.println();
 		}
 	}
 	
@@ -39,8 +43,19 @@ public class RouteManager {
 		ArrayList<Stop> connectors = stopGraph.getConnectorStops();
 		
 		for (Stop stop: connectors) {
-			System.out.println("Stop: " + stop.getName() + " is on lines: " + stop.getRoutes().toString());
+			LinkedHashSet<String> routes = StopConnection.getRoutesFromConnections(stop.getConnections());
+			System.out.println("Stop: " + stop.getName() + " (" + stop.getID() + ") " + "is on routes: " + routes.toString());
 		}
+	}
+
+	public void printRoutesBetweenStops(String startStopID, String endStopID) throws NoPathFoundException {
+		GraphSearcher searcher = new GraphSearcher(stopGraph);
+		
+		ArrayList<StopConnection> path = searcher.findPath(startStopID, endStopID);
+		LinkedHashSet<String> routes = StopConnection.getRoutesFromConnections(path);
+		
+		System.out.println("The route found between the stops " + startStopID + " and " + endStopID + " is as follows: ");
+		System.out.println("    " + routes.toString());
 	}
 	
 	

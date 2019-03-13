@@ -8,15 +8,15 @@ import java.util.LinkedList;
 public class GraphSearcher {
 	StopGraph graph;
 	
-	HashMap<String,String> predecessorMap;
+	HashMap<String,StopConnection> predecessorMap;
 	
 	public GraphSearcher(StopGraph graph) {
 		this.graph = graph;
 	}
 	
 	//a breadth first search
-	public ArrayList<Stop> findPath(String startStopID, String endStopID) throws NoPathFoundException {		
-		predecessorMap = new HashMap<String,String>();
+	public ArrayList<StopConnection> findPath(String startStopID, String endStopID) throws NoPathFoundException {		
+		predecessorMap = new HashMap<String,StopConnection>();
 		
 		ArrayList<String> visited = new ArrayList<String>();
 		LinkedList<String> openSet = new LinkedList<String>();
@@ -33,16 +33,16 @@ public class GraphSearcher {
 			}
 			
 			//for all child nodes
-			for (String stopID: graph.getStop(currStopID).getConnections()) {
+			for (StopConnection connection: graph.getStop(currStopID).getConnections()) {
 				//skip any already visited nodes to avoid loops
-				if (visited.contains(stopID)) {
+				if (visited.contains(connection.end)) {
 					continue;
 				}
 				
 				//if we have not already seen this node and queued it for processing, track the path to it and queue it
-				if (!openSet.contains(stopID)) {
-					predecessorMap.put(stopID, currStopID);
-					openSet.add(stopID);
+				if (!openSet.contains(connection.end)) {
+					predecessorMap.put(connection.end, connection);
+					openSet.add(connection.end);
 				}
 			}
 			
@@ -50,17 +50,17 @@ public class GraphSearcher {
 			visited.add(currStopID);
 		}
 		
-		throw new NoPathFoundException("Unable to route from " + startStopID + " to " + endStopID);
+		throw new NoPathFoundException(Constants.EXCEPTION_NO_ROUTE_TO_DEST + startStopID + " to " + endStopID);
 	}
 	
-	private ArrayList<Stop> traverseToStart(String startStop, String endStop) {
-		ArrayList<Stop> path = new ArrayList<Stop>();
+	private ArrayList<StopConnection> traverseToStart(String startStop, String endStop) {
+		ArrayList<StopConnection> path = new ArrayList<StopConnection>();
 		
 		String currStop = endStop;
 		
-		while (currStop != startStop) {
-			path.add(graph.getStop(currStop));
-			currStop = predecessorMap.get(currStop);
+		while (predecessorMap.containsKey(currStop)) {
+			path.add(predecessorMap.get(currStop));
+			currStop = predecessorMap.get(currStop).start;
 		}
 		
 		Collections.reverse(path);

@@ -14,21 +14,21 @@ class TestStop {
 	
 	Stop testStop;
 	
-	HashSet<String> testConnectionIDs1;
-	String connection1 = "c1";
-	String connection2 = "c2";
-	String connection3 = "c3";
-	
-	HashSet<String> testConnectionIDs2;
+	HashSet<StopConnection> testConnectionIDs1;
+	HashSet<StopConnection> testConnectionIDs2;
 	
 	String routeID1 = "routeID1";
 	String routeID2 = "routeID2";
 	
+	StopConnection connection1 = new StopConnection("1", "2", routeID1);
+	StopConnection connection2 = new StopConnection("2", "3", routeID1);
+	StopConnection connection3 = new StopConnection("2", "3", routeID2);
+	
 	@BeforeEach
 	void setup() {
-		testConnectionIDs1 = new HashSet<String>();
+		testConnectionIDs1 = new HashSet<StopConnection>();
 		
-		testConnectionIDs2 = new HashSet<String>();
+		testConnectionIDs2 = new HashSet<StopConnection>();
 		
 		testStop = new Stop(testStopID1, stopName);
 	}
@@ -40,7 +40,7 @@ class TestStop {
 		
 		testStop.initializeConnections(testConnectionIDs1, routeID1);
 		
-		assertEquals(1, testStop.getRoutes().size());
+		assertEquals(1, StopConnection.getRoutesFromConnections(testStop.getConnections()).size());
 		assertEquals(2, testStop.getConnections().size());
 		assertTrue(testStop.getConnections().contains(connection1));
 		assertTrue(testStop.getConnections().contains(connection2));
@@ -48,16 +48,14 @@ class TestStop {
 	
 	@Test
 	void testInitialStopState() {
-		
 		assertEquals(testStopID1, testStop.getID());
-		assertEquals(0, testStop.getRoutes().size());
 		assertEquals(0, testStop.getConnections().size());
 		assertFalse(testStop.isConnector());
 	}
 	
 	@Test
 	void testInitialIsConnectorState() {
-		testStop.initializeConnections(new HashSet<String>(), routeID1);
+		testStop.initializeConnections(new HashSet<StopConnection>(), routeID1);
 		
 		assertFalse(testStop.isConnector());
 	}
@@ -76,8 +74,20 @@ class TestStop {
 		testStop.updateConnections(sameStopDifferentRoute);
 		
 		assertEquals(3, testStop.getConnections().size());
-		assertEquals(2, testStop.getRoutes().size());
+		assertEquals(2, StopConnection.getRoutesFromConnections(testStop.getConnections()).size());
 		assertTrue(testStop.isConnector());
 	}
+	
+	@Test
+	void testUpdateConnectionsWithSameConnection() {
+		
+		HashSet<StopConnection> testConnections = new HashSet<StopConnection>();
+		testConnections.add(connection1);
+		testConnections.add(connection1);
+		
+		assertEquals(1, testConnections.size());
+	}
+	
+	
 
 }

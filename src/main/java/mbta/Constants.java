@@ -27,10 +27,10 @@ public class Constants {
 	//JSON parsing exception messages
 	public static final String EXCEPTIONS_UNEXPECTED_TYPE = "Encountered an unexpected type when parsing the route response. ";
 	public static final String EXCEPTIONS_INVALID_JSON = "The response being parsed is not valid JSON. ";
-	
 	public static final String EXCEPTIONS_INVALID_ARRAY = "Failed to extract a JSON array from JSON. ";
-
 	public static final String EXCEPTIONS_INVALID_OBJECT = "Failed to extract a JSON object from JSON. ";
-
 	public static final String EXCEPTIONS_INVALID_STRING = "Failed to extract a String from JSON. ";
+
+	public static final String EXCEPTIONS_NO_STOP = "Tried to access a stop that does not exist in the graph";
+	public static final String EXCEPTION_NO_ROUTE_TO_DEST = "No route was found to the destination stop from the start stop";
 }

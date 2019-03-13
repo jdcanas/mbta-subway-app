@@ -3,6 +3,9 @@ package mbta;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+
+//A custom graph implementation is used here for better understanding of the underlying implementation
+//The 'Stop' class is a node, and the 'StopConnection' is an edge 
 public class StopGraph {
 	
 	HashMap<String, Stop> stopSet;
@@ -37,12 +40,13 @@ public class StopGraph {
 		return connectors;
 	}
 	
-	public Stop getStop(String stopID) {
-		return stopSet.get(stopID);
-	}
-	
-	public boolean hasStop(String stopID) {
-		return stopSet.containsKey(stopID);
+	public Stop getStop(String stopID) throws NoPathFoundException {
+		Stop stop = stopSet.get(stopID);
+		if (stop == null) {
+			throw new NoPathFoundException(Constants.EXCEPTIONS_NO_STOP);
+		}
+		
+		return stop;
 	}
 	
 

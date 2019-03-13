@@ -32,7 +32,7 @@ class TestRoute {
 		requestsMock = mock(Requests.class);
 		setMock(requestsMock);
 		
-		testRoute = new Route(testRouteID, testRouteName);
+		testRoute = new Route(testRouteName, testRouteID);
 		
 		initialStops = new ArrayList<Stop>();
 		initialStops.add(new Stop(stopID1, stopName));
@@ -43,24 +43,6 @@ class TestRoute {
 	@AfterEach
 	void tearDown() {
 		resetSingleton();
-	}
-
-	@Test
-	void testStopEnrichRouteName() throws MBTAAPIException {
-	    when(requestsMock.getStops(anyString())).thenReturn(initialStops);
-	    
-	    ArrayList<Stop> enrichedStops = testRoute.initializeStops();
-	    
-	    assertEquals(initialStops.size(), enrichedStops.size());
-	    
-	    assertEquals(1, enrichedStops.get(0).getRoutes().size());
-	    assertTrue(enrichedStops.get(0).getRoutes().contains(testRouteName));
-	    
-	    assertEquals(1, enrichedStops.get(1).getRoutes().size());
-	    assertTrue(enrichedStops.get(1).getRoutes().contains(testRouteName));
-	    
-	    assertEquals(1, enrichedStops.get(2).getRoutes().size());
-	    assertTrue(enrichedStops.get(2).getRoutes().contains(testRouteName));
 	}
 	
 	@Test
@@ -73,10 +55,10 @@ class TestRoute {
 	    ArrayList<Stop> enrichedStops = testRoute.initializeStops();
 	    
 	    assertEquals(1, enrichedStops.get(0).getConnections().size());
-	    assertTrue(enrichedStops.get(0).getConnections().contains(stopID3));
+	    assertTrue(enrichedStops.get(0).getConnections().contains(new StopConnection(stopID2,stopID3,testRouteID)));
 	    
 	    assertEquals(1, enrichedStops.get(1).getConnections().size());
-	    assertTrue(enrichedStops.get(1).getConnections().contains(stopID2));
+	    assertTrue(enrichedStops.get(1).getConnections().contains(new StopConnection(stopID3,stopID2,testRouteID)));
 	}
 	
 	@Test
@@ -87,14 +69,14 @@ class TestRoute {
 	    ArrayList<Stop> enrichedStops = testRoute.initializeStops();
 	    
 	    assertEquals(1, enrichedStops.get(0).getConnections().size());
-	    assertTrue(enrichedStops.get(0).getConnections().contains(stopID2));
+	    assertTrue(enrichedStops.get(0).getConnections().contains(new StopConnection(stopID1,stopID2,testRouteID)));
 	    
 	    assertEquals(2, enrichedStops.get(1).getConnections().size());
-	    assertTrue(enrichedStops.get(1).getConnections().contains(stopID1));
-	    assertTrue(enrichedStops.get(1).getConnections().contains(stopID3));
+	    assertTrue(enrichedStops.get(1).getConnections().contains(new StopConnection(stopID2,stopID1,testRouteID)));
+	    assertTrue(enrichedStops.get(1).getConnections().contains(new StopConnection(stopID2,stopID3,testRouteID)));
 	    
 	    assertEquals(1, enrichedStops.get(2).getConnections().size());
-	    assertTrue(enrichedStops.get(2).getConnections().contains(stopID2));
+	    assertTrue(enrichedStops.get(2).getConnections().contains(new StopConnection(stopID3,stopID2,testRouteID)));
 	}
 	
     private void setMock(Requests mock){

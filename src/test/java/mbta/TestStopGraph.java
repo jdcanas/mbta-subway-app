@@ -43,21 +43,21 @@ class TestStopGraph {
 
 	@Test
 	//this test the graph with 1 route and 3 stops, 1-2-3
-	void testSimpleGraphWithOneRoute() {
+	void testSimpleGraphWithOneRoute() throws NoPathFoundException {
 		HashSet<String> routes = new HashSet<String>();
 		routes.add(route1ID);
 		
-		HashSet<String> stop1Connections = new HashSet<String>();
-		stop1Connections.add(stop2ID);
+		HashSet<StopConnection> stop1Connections = new HashSet<StopConnection>();
+		stop1Connections.add(new StopConnection(stop1ID, stop2ID, route1ID));
 		stop1Mock.initializeConnections(stop1Connections, route1ID);
 		
-		HashSet<String> stop2Connections = new HashSet<String>();
-		stop2Connections.add(stop1ID);
-		stop2Connections.add(stop3ID);
+		HashSet<StopConnection> stop2Connections = new HashSet<StopConnection>();
+		stop2Connections.add(new StopConnection(stop2ID, stop1ID, route1ID));
+		stop2Connections.add(new StopConnection(stop2ID, stop3ID, route1ID));
 		stop2Mock.initializeConnections(stop2Connections, route1ID);
 		
-		HashSet<String> stop3Connections = new HashSet<String>();
-		stop3Connections.add(stop2ID);
+		HashSet<StopConnection> stop3Connections = new HashSet<StopConnection>();
+		stop3Connections.add(new StopConnection(stop3ID, stop2ID, route1ID));
 		stop3Mock.initializeConnections(stop3Connections, route1ID);
 		
 		ArrayList<Stop> mockedStops = new ArrayList<Stop>();
@@ -73,32 +73,28 @@ class TestStopGraph {
 		assertEquals(stop1Connections, graph.getStop(stop1ID).getConnections());
 		assertEquals(stop2Connections, graph.getStop(stop2ID).getConnections());
 		assertEquals(stop3Connections, graph.getStop(stop3ID).getConnections());
-		
-		assertEquals(routes, graph.getStop(stop1ID).getRoutes());
-		assertEquals(routes, graph.getStop(stop2ID).getRoutes());
-		assertEquals(routes, graph.getStop(stop3ID).getRoutes());
 	}
 	
 	@Test
 	//this test the graph with 2 routes and 3 stops, 1-2-3
 	//1-2 are in route 1, and 2-3 are in route 2
-	void testSimpleGraphWith2Routes() {
+	void testSimpleGraphWith2Routes() throws NoPathFoundException {
 		//route 1 setup
-		HashSet<String> stop1Connections = new HashSet<String>();
-		stop1Connections.add(stop2ID);
+		HashSet<StopConnection> stop1Connections = new HashSet<StopConnection>();
+		stop1Connections.add(new StopConnection(stop1ID, stop2ID, route1ID));
 		stop1Mock.initializeConnections(stop1Connections, route1ID);
 		
-		HashSet<String> stop2Connections = new HashSet<String>();
-		stop2Connections.add(stop1ID);
+		HashSet<StopConnection> stop2Connections = new HashSet<StopConnection>();
+		stop2Connections.add(new StopConnection(stop2ID, stop1ID, route1ID));
 		stop2Mock.initializeConnections(stop2Connections, route1ID);
 		
 		//route 2 setup
-		HashSet<String> stop2DifferentRouteConnections = new HashSet<String>();
-		stop2DifferentRouteConnections.add(stop3ID);
+		HashSet<StopConnection> stop2DifferentRouteConnections = new HashSet<StopConnection>();
+		stop2DifferentRouteConnections.add(new StopConnection(stop2ID, stop3ID, route2ID));
 		stop2DifferentRouteMock.initializeConnections(stop2DifferentRouteConnections, route2ID);
 		
-		HashSet<String> stop3Connections = new HashSet<String>();
-		stop3Connections.add(stop2ID);
+		HashSet<StopConnection> stop3Connections = new HashSet<StopConnection>();
+		stop3Connections.add(new StopConnection(stop3ID, stop2ID, route2ID));
 		stop3Mock.initializeConnections(stop3Connections, route2ID);
 		
 		ArrayList<Stop> mockedRoute1 = new ArrayList<Stop>();
@@ -120,21 +116,10 @@ class TestStopGraph {
 		assertEquals(stop1Connections, graph.getStop(stop1ID).getConnections());
 		
 		assertEquals(2, graph.getStop(stop2ID).getConnections().size());
-		assertTrue(graph.getStop(stop2ID).getConnections().contains(stop1ID));
-		assertTrue(graph.getStop(stop2ID).getConnections().contains(stop3ID));
+		assertTrue(graph.getStop(stop2ID).getConnections().contains(new StopConnection(stop2ID, stop3ID, route2ID)));
+		assertTrue(graph.getStop(stop2ID).getConnections().contains(new StopConnection(stop2ID, stop1ID, route1ID)));
 		
 		assertEquals(stop3Connections, graph.getStop(stop3ID).getConnections());
-		
-		//test routes
-		assertEquals(1, graph.getStop(stop1ID).getRoutes().size());
-		assertTrue(graph.getStop(stop1ID).getRoutes().contains(route1ID));
-
-		assertEquals(2, graph.getStop(stop2ID).getRoutes().size());
-		assertTrue(graph.getStop(stop2ID).getRoutes().contains(route1ID));
-		assertTrue(graph.getStop(stop2ID).getRoutes().contains(route2ID));
-		
-		assertEquals(1, graph.getStop(stop3ID).getRoutes().size());
-		assertTrue(graph.getStop(stop3ID).getRoutes().contains(route2ID));
 	}
 	
 	@Test
@@ -148,7 +133,7 @@ class TestStopGraph {
 	// route 2: A-D
 	// route 3: D-B
 	// route 4: C-A
-	void testComplexGraphWith4Routes() {
+	void testComplexGraphWith4Routes() throws NoPathFoundException {
 		
 		//route 1 setup
 		ArrayList<Stop> mockedRoute1 = new ArrayList<Stop>();
@@ -158,22 +143,22 @@ class TestStopGraph {
 		Stop route1C = new Stop(stop3ID, stopName);
 		Stop route1E = new Stop(stop5ID, stopName);
 		
-		HashSet<String> stopARoute1Connections = new HashSet<String>();
-		stopARoute1Connections.add(stop2ID);
+		HashSet<StopConnection> stopARoute1Connections = new HashSet<StopConnection>();
+		stopARoute1Connections.add(new StopConnection(stop1ID, stop2ID, route1ID));
 		route1A.initializeConnections(stopARoute1Connections, route1ID);
 		
-		HashSet<String> stopBRoute1Connections = new HashSet<String>();
-		stopBRoute1Connections.add(stop1ID);
-		stopBRoute1Connections.add(stop3ID);
+		HashSet<StopConnection> stopBRoute1Connections = new HashSet<StopConnection>();
+		stopBRoute1Connections.add(new StopConnection(stop2ID, stop1ID, route1ID));
+		stopBRoute1Connections.add(new StopConnection(stop2ID, stop3ID, route1ID));
 		route1B.initializeConnections(stopBRoute1Connections, route1ID);
 		
-		HashSet<String> stopCRoute1Connections = new HashSet<String>();
-		stopCRoute1Connections.add(stop2ID);
-		stopCRoute1Connections.add(stop5ID);
+		HashSet<StopConnection> stopCRoute1Connections = new HashSet<StopConnection>();
+		stopCRoute1Connections.add(new StopConnection(stop3ID, stop2ID, route1ID));
+		stopCRoute1Connections.add(new StopConnection(stop3ID, stop5ID, route1ID));
 		route1C.initializeConnections(stopCRoute1Connections, route1ID);
 		
-		HashSet<String> stopERoute1Connections = new HashSet<String>();
-		stopERoute1Connections.add(stop3ID);
+		HashSet<StopConnection> stopERoute1Connections = new HashSet<StopConnection>();
+		stopERoute1Connections.add(new StopConnection(stop5ID, stop3ID, route1ID));
 		route1E.initializeConnections(stopERoute1Connections, route1ID);
 		
 		mockedRoute1.add(route1A);
@@ -187,12 +172,12 @@ class TestStopGraph {
 		Stop route2A = new Stop(stop1ID, stopName);
 		Stop route2D = new Stop(stop4ID, stopName);
 		
-		HashSet<String> stopARoute2Connections = new HashSet<String>();
-		stopARoute2Connections.add(stop4ID);
+		HashSet<StopConnection> stopARoute2Connections = new HashSet<StopConnection>();
+		stopARoute2Connections.add(new StopConnection(stop1ID, stop4ID, route2ID));
 		route2A.initializeConnections(stopARoute2Connections, route2ID);
 		
-		HashSet<String> stopDRoute2Connections = new HashSet<String>();
-		stopDRoute2Connections.add(stop1ID);
+		HashSet<StopConnection> stopDRoute2Connections = new HashSet<StopConnection>();
+		stopDRoute2Connections.add(new StopConnection(stop4ID, stop1ID, route2ID));
 		route2D.initializeConnections(stopDRoute2Connections, route2ID);
 		
 		mockedRoute2.add(route2A);
@@ -204,12 +189,12 @@ class TestStopGraph {
 		Stop route3B = new Stop(stop2ID, stopName);
 		Stop route3D = new Stop(stop4ID, stopName);
 		
-		HashSet<String> stopBRoute3Connections = new HashSet<String>();
-		stopBRoute3Connections.add(stop4ID);
+		HashSet<StopConnection> stopBRoute3Connections = new HashSet<StopConnection>();
+		stopBRoute3Connections.add(new StopConnection(stop2ID, stop4ID, route3ID));
 		route3B.initializeConnections(stopBRoute3Connections, route3ID);
 		
-		HashSet<String> stopDRoute3Connections = new HashSet<String>();
-		stopDRoute3Connections.add(stop2ID);
+		HashSet<StopConnection> stopDRoute3Connections = new HashSet<StopConnection>();
+		stopDRoute3Connections.add(new StopConnection(stop4ID, stop2ID, route3ID));
 		route3D.initializeConnections(stopDRoute3Connections, route3ID);
 		
 		mockedRoute3.add(route3D);
@@ -221,12 +206,12 @@ class TestStopGraph {
 		Stop route4A = new Stop(stop1ID, stopName);
 		Stop route4C = new Stop(stop3ID, stopName);
 		
-		HashSet<String> stopARoute4Connections = new HashSet<String>();
-		stopARoute4Connections.add(stop3ID);
+		HashSet<StopConnection> stopARoute4Connections = new HashSet<StopConnection>();
+		stopARoute4Connections.add(new StopConnection(stop1ID, stop3ID, route4ID));
 		route4A.initializeConnections(stopARoute4Connections, route4ID);
 		
-		HashSet<String> stopCRoute4Connections = new HashSet<String>();
-		stopCRoute4Connections.add(stop1ID);
+		HashSet<StopConnection> stopCRoute4Connections = new HashSet<StopConnection>();
+		stopCRoute4Connections.add(new StopConnection(stop3ID, stop1ID, route4ID));
 		route4C.initializeConnections(stopCRoute4Connections, route4ID);
 		
 		mockedRoute4.add(route4A);
@@ -246,64 +231,39 @@ class TestStopGraph {
 		
 			//connections
 		assertEquals(3, graph.getStop(stop1ID).getConnections().size());
-		assertTrue(graph.getStop(stop1ID).getConnections().contains(stop4ID));
-		assertTrue(graph.getStop(stop1ID).getConnections().contains(stop2ID));
-		assertTrue(graph.getStop(stop1ID).getConnections().contains(stop3ID));
-		
-			//routes
-		assertEquals(3, graph.getStop(stop1ID).getRoutes().size());
-		assertTrue(graph.getStop(stop1ID).getRoutes().contains(route1ID));
-		assertTrue(graph.getStop(stop1ID).getRoutes().contains(route2ID));
-		assertTrue(graph.getStop(stop1ID).getRoutes().contains(route4ID));
+		assertTrue(graph.getStop(stop1ID).getConnections().contains(new StopConnection(stop1ID, stop4ID, route2ID)));
+		assertTrue(graph.getStop(stop1ID).getConnections().contains(new StopConnection(stop1ID, stop2ID, route1ID)));
+		assertTrue(graph.getStop(stop1ID).getConnections().contains(new StopConnection(stop1ID, stop3ID, route4ID)));
 		
 		//stop 2 tests
 		
 			//connections
 		assertEquals(3, graph.getStop(stop2ID).getConnections().size());
-		assertTrue(graph.getStop(stop2ID).getConnections().contains(stop4ID));
-		assertTrue(graph.getStop(stop2ID).getConnections().contains(stop3ID));
-		assertTrue(graph.getStop(stop2ID).getConnections().contains(stop1ID));
-	
-			//routes
-		assertEquals(2, graph.getStop(stop2ID).getRoutes().size());
-		assertTrue(graph.getStop(stop2ID).getRoutes().contains(route1ID));
-		assertTrue(graph.getStop(stop2ID).getRoutes().contains(route3ID));
+		assertTrue(graph.getStop(stop2ID).getConnections().contains(new StopConnection(stop2ID, stop4ID, route3ID)));
+		assertTrue(graph.getStop(stop2ID).getConnections().contains(new StopConnection(stop2ID, stop3ID, route1ID)));
+		assertTrue(graph.getStop(stop2ID).getConnections().contains(new StopConnection(stop2ID, stop1ID, route1ID)));
 		
-
 		//stop 3 tests
 		
 			//connections
 		assertEquals(3, graph.getStop(stop3ID).getConnections().size());
-		assertTrue(graph.getStop(stop3ID).getConnections().contains(stop1ID));
-		assertTrue(graph.getStop(stop3ID).getConnections().contains(stop2ID));
-		assertTrue(graph.getStop(stop3ID).getConnections().contains(stop5ID));
-	
-			//routes
-		assertEquals(2, graph.getStop(stop3ID).getRoutes().size());
-		assertTrue(graph.getStop(stop3ID).getRoutes().contains(route1ID));
-		assertTrue(graph.getStop(stop3ID).getRoutes().contains(route4ID));
+		assertTrue(graph.getStop(stop3ID).getConnections().contains(new StopConnection(stop3ID, stop1ID, route4ID)));
+		assertTrue(graph.getStop(stop3ID).getConnections().contains(new StopConnection(stop3ID, stop2ID, route1ID)));
+		assertTrue(graph.getStop(stop3ID).getConnections().contains(new StopConnection(stop3ID, stop5ID, route1ID)));
 		
 		//stop 4 tests
 		
 			//connections
 		assertEquals(2, graph.getStop(stop4ID).getConnections().size());
-		assertTrue(graph.getStop(stop4ID).getConnections().contains(stop1ID));
-		assertTrue(graph.getStop(stop4ID).getConnections().contains(stop2ID));
-
-		//routes
-		assertEquals(2, graph.getStop(stop4ID).getRoutes().size());
-		assertTrue(graph.getStop(stop4ID).getRoutes().contains(route2ID));
-		assertTrue(graph.getStop(stop4ID).getRoutes().contains(route3ID));
+		assertTrue(graph.getStop(stop4ID).getConnections().contains(new StopConnection(stop4ID, stop1ID, route2ID)));
+		assertTrue(graph.getStop(stop4ID).getConnections().contains(new StopConnection(stop4ID, stop2ID, route3ID)));
 		
 		//stop 5 tests
 		
 			//connections
 		assertEquals(1, graph.getStop(stop5ID).getConnections().size());
-		assertTrue(graph.getStop(stop5ID).getConnections().contains(stop3ID));
+		assertTrue(graph.getStop(stop5ID).getConnections().contains(new StopConnection(stop5ID, stop3ID, route1ID)));
 
-			//routes
-		assertEquals(1, graph.getStop(stop5ID).getRoutes().size());
-		assertTrue(graph.getStop(stop5ID).getRoutes().contains(route1ID));
 	}
 
 }

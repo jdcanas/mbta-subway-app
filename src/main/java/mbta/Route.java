@@ -38,12 +38,12 @@ public class Route {
 		ArrayList<Stop> stopsWithConnections = new ArrayList<Stop>();
 		
 		Stop currStop;
-		HashSet<String> currConnectionIDs;
+		HashSet<StopConnection> currConnections;
 		for (int i = 0; i < stops.size(); i++) {
 			currStop = stops.get(i);
-			currConnectionIDs = getConnectionIDs(i, stops);
+			currConnections = getConnectionIDs(i, stops);
 			
-			currStop.initializeConnections(currConnectionIDs, routeID);
+			currStop.initializeConnections(currConnections, routeID);
 			
 			stopsWithConnections.add(currStop);
 		}
@@ -51,18 +51,20 @@ public class Route {
 		return stopsWithConnections;
 	}
 	
-	private static HashSet<String> getConnectionIDs(int index, ArrayList<Stop> stops) {
-		HashSet<String> connectionIDs = new HashSet<String>();
+	private HashSet<StopConnection> getConnectionIDs(int index, ArrayList<Stop> stops) {
+		HashSet<StopConnection> connections = new HashSet<StopConnection>();
 		
 		if (index != 0) { //add the previous stop if this is not the first stop
-			connectionIDs.add(stops.get(index - 1).getID());
+			StopConnection prevStopConnection = new StopConnection(stops.get(index).getID(), stops.get(index - 1).getID(), this.routeID);
+			connections.add(prevStopConnection);
 		}
 		
 		if (index != stops.size() - 1) { //add the next stop if this is not the last stop
-			connectionIDs.add(stops.get(index + 1).getID());
+			StopConnection nextStopConnection = new StopConnection(stops.get(index).getID(), stops.get(index + 1).getID(), this.routeID);
+			connections.add(nextStopConnection);
 		}
 		
-		return connectionIDs;
+		return connections;
 	}
 
 	public String getLongName() {
@@ -71,6 +73,10 @@ public class Route {
 	
 	public int getNumStops() {
 		return stopIDs.size();
+	}
+	
+	public ArrayList<String> getStopIDs() {
+		return this.stopIDs;
 	}
 	
 	public String getID() {
